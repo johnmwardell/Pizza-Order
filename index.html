@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Pizza!</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+	</head>
+	<body">
+		<header><h1>Let's Order Some Pizza!</h1></header>
+		<main>
+			<div class="container">
+				<section class="order-form">
+					<div class="form-title">
+						<h2>Make Your Selection Below</h2>
+					</div>
+					<section class="form">
+						<div class="container">
+							<h3>Size and Type</h3>
+							<div class="container">
+								<h4>Size</h4>
+								<ul>
+									<li><input type="radio" name="size" value="0"> Personal</li>
+									<li><input type="radio" name="size" value="1"> Medium</li>
+									<li><input type="radio" name="size" value="2" checked> Large</li>
+									<li><input type="radio" name="size" value="3"> Extra Large</li>
+								</ul>
+							</div>
+							<div class="container">
+								<h4>Crust</h4>
+								<ul>
+									<li><input type="radio" name="crust" value="0" checked> Plain Crust</li>
+									<li><input type="radio" name="crust" value="1"> Garlic Butter Crust</li>
+									<li><input type="radio" name="crust" value="2"> Cheese Stuffed Crust</li>
+									<li><input type="radio" name="crust" value="3"> Spicy Crust</li>
+									<li><input type="radio" name="crust" value="4"> House Special Crust</li>
+								</ul>
+							</div>
+							<div class="container">
+								<h4>Sauce</h4>
+								<ul>
+									<li><input type="radio" name="sauce" value="0" checked> Marinara Sauce</li>
+									<li><input type="radio" name="sauce" value="1"> White Sauce</li>
+									<li><input type="radio" name="sauce" value="2"> Barbecue Sauce</li>
+									<li><input type="radio" name="sauce" value="3"> No Sauce</li>
+								</ul>
+							</div>
+							<div class="container">
+								<h4>Cheese</h4>
+								<ul>
+									<li><input type="radio" name="cheese" value="0" checked> Regular</li>
+									<li><input type="radio" name="cheese" value="1"> Extra Cheese</li>
+									<li><input type="radio" name="cheese" value="2"> No Cheese</li>
+								</ul>
+							</div>
+						</div>
+						<div class="container">
+							<h3>Toppings</h3>
+							<div class="container">
+								<h4>Meats</h4>
+								<ul>
+									<li><input type="checkbox" name="meat" value="0" checked> Pepperoni</li>
+									<li><input type="checkbox" name="meat" value="1"> Sausage</li>
+									<li><input type="checkbox" name="meat" value="2"> Canadian Bacon</li>
+									<li><input type="checkbox" name="meat" value="3"> Ground Beef</li>
+									<li><input type="checkbox" name="meat" value="4"> Anchovies</li>
+									<li><input type="checkbox" name="meat" value="5"> Chicken</li>
+								</ul>
+							</div>
+							<div class="container">
+								<h4>Veggies</h4>
+								<ul>
+									<li><input type="checkbox" name="veggie" value="0" checked> Tomatoes</li>
+									<li><input type="checkbox" name="veggie" value="1"> Onions</li>
+									<li><input type="checkbox" name="veggie" value="2"> Olives</li>
+									<li><input type="checkbox" name="veggie" value="3"> Green Peppers</li>
+									<li><input type="checkbox" name="veggie" value="4" checked> Mushrooms</li>
+									<li><input type="checkbox" name="veggie" value="5" checked> Pineapple</li>
+									<li><input type="checkbox" name="veggie" value="6"> Spinach</li>
+									<li><input type="checkbox" name="veggie" value="7"> Jalapeño</li>
+								</ul>
+							</div>
+						</div>
+					</section>
+				</section>
+				<section>
+					<button onclick="orderPizza()">Submit My Order</button>
+				</section>
+				<section id="receipt">
+					<div class="receiptItems">
+						<div id="size"></div>
+						<div id="crust"></div>
+						<div id="sauce"></div>
+						<div id="cheese"></div>
+						<div id="meat"></div>
+						<div id="veggie"></div>
+					</div>
+					<div class="receiptPrice">
+						<div id="sizePrice"></div>
+						<div id="crustPrice"></div>
+						<div id="saucePrice"></div>
+						<div id="cheesePrice"></div>
+						<div id="meatPrice"></div>
+						<div id="veggiePrice"></div>
+					</div>
+					<section>
+						<div id="costTotal" class="receiptPrice">
+						</div>
+					</section>
+				</section>
+			</div>
+		</main>
+		<script>
+			var pizza = {
+				'size' :   ['Personal',
+							'Medium',
+							'Large',
+							'Extra Large'],
+				'crust' :  ['Plain Crust', 
+						    'Garlic Butter Crust',
+						    'Cheese Stuffed Crust',
+						    'Spicy Crust',
+						    'House Special Crust'],
+				'sauce' :  ['Marinara Sauce',
+						    'White Sauce',
+						    'Barbecue Sauce',
+						    'No Sauce'],
+				'cheese' : ['Regular',
+						    'Extra Cheese',
+						    'No Cheese'],
+				'meat' :   ['Pepperoni',
+						    'Sausage',
+						    'Canadian Bacon',
+						    'Ground Beef',
+						    'Anchovies',
+						    'Chicken'],
+				'veggie' : ['Tomatoes',
+						    'Onions',
+						    'Olives',
+						    'Green Peppers',
+						    'Mushrooms',
+						    'Pineapple',
+						    'Spinach',
+						    'Jalapeño']
+			};
+			function orderPizza() {
+				var myPizza = {
+					'size'   : null,
+					'crust'  : null,
+					'sauce'  : null,
+					'cheese' : null,
+					'meat'   : [],
+					'veggie' : [],
+					'cost'   : 0
+				};
+				var i = 0;
+				
+				// Pizza Size
+				var size = document.getElementsByName('size');
+				for (i = 0; i < size.length; i++) {
+					if (size[i].checked == true) {
+						myPizza.size = pizza.size[i];
+						if (i == 0) {
+							myPizza.cost = myPizza.cost + 6;
+							document.getElementById('sizePrice').innerHTML = "$6.00";
+						}
+						else if (i == 1) {
+							myPizza.cost = myPizza.cost + 10;
+							document.getElementById('sizePrice').innerHTML = "$10.00";
+						}
+						else if (i == 2) {
+							myPizza.cost = myPizza.cost + 14;
+							document.getElementById('sizePrice').innerHTML = "$14.00";
+						}
+						else if (i == 3) {
+							myPizza.cost = myPizza.cost + 16;
+							document.getElementById('sizePrice').innerHTML = "$16.00";
+						};
+					};
+				};
+				document.getElementById('size').innerHTML = myPizza.size;
+				
+				// Pizza Crust
+				var crust = document.getElementsByName('crust');
+				for (i = 0; i < crust.length; i++) {
+					if (crust[i].checked == true) {
+						myPizza.crust = pizza.crust[i];
+						if (i == 2) {
+							myPizza.cost = myPizza.cost + 3;
+							document.getElementById('crustPrice').innerHTML = "+ $3.00";
+						}
+						else {
+							document.getElementById('crustPrice').innerHTML = "&nbsp;";
+						};
+					};
+				};
+				document.getElementById('crust').innerHTML = myPizza.crust;
+				
+				// Pizza Sauce
+				var sauce = document.getElementsByName('sauce');
+				for (i = 0; i < sauce.length; i++) {
+					if (sauce[i].checked == true) {
+						myPizza.sauce = pizza.sauce[i];
+					};
+				};
+				document.getElementById('saucePrice').innerHTML = "&nbsp;"
+				document.getElementById('sauce').innerHTML = myPizza.sauce;
+				
+				// How much cheese
+				var cheese = document.getElementsByName('cheese');
+				for (i = 0; i < cheese.length; i++) {
+					if (cheese[i].checked == true) {
+						myPizza.cheese = pizza.cheese[i];
+						if (i == 1) {
+							myPizza.cost = myPizza.cost + 3;
+							document.getElementById('cheesePrice').innerHTML = "+ $3.00";
+						}
+						else {
+							document.getElementById('cheesePrice').innerHTML = "&nbsp;";
+						};
+					};
+				};
+				document.getElementById('cheese').innerHTML = myPizza.cheese;
+				
+				// What kinds of meat
+				var meat = document.getElementsByName('meat');
+				for (i = 0; i < meat.length; i++) {
+					if (meat[i].checked == true) {
+						myPizza.meat[myPizza.meat.length] = pizza.meat[i];
+					};
+				};
+				if (myPizza.meat.length > 1) {
+					myPizza.cost = myPizza.cost + (myPizza.meat.length - 1);
+					document.getElementById('meatPrice').innerHTML = "+ $" + (myPizza.meat.length - 1) + ".00";
+				}
+				else {
+					document.getElementById('meatPrice').innerHTML = "&nbsp;";
+				};
+				document.getElementById('meat').innerHTML = myPizza.meat;
+				
+				// What kinds of veggies
+				var veggie = document.getElementsByName('veggie');
+				for (i = 0; i < veggie.length; i++) {
+					if (veggie[i].checked == true) {
+						myPizza.veggie[myPizza.veggie.length] = pizza.veggie[i];
+					};
+				};
+				if (myPizza.veggie.length > 1) {
+					myPizza.cost = myPizza.cost + (myPizza.veggie.length - 1);
+					document.getElementById('veggiePrice').innerHTML = "+ $" + (myPizza.veggie.length - 1) + ".00";
+				}
+				else {
+					document.getElementById('veggiePrice').innerHTML = "&nbsp;";
+				};
+				document.getElementById('veggie').innerHTML = myPizza.veggie;
+				
+				document.getElementById('costTotal').innerHTML = "Total: $" + myPizza.cost + ".00";
+			};
+		</script>
+	</body>
+</html>
